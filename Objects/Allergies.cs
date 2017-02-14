@@ -5,59 +5,52 @@ namespace Allergies
 {
     public class Allergy
     {
-        private int _input;
+        public static Dictionary<int, string> dValue = new Dictionary<int, string>()
+        {
+            {128, "cats"},
+            {64, "pollen"},
+            {32, "chocolate"},
+            {16, "tomatoes"},
+            {8, "strawberries"},
+            {4, "shellfish"},
+            {2, "peanuts"},
+            {1, "eggs"},
+        };
+        private int _userInput;
 
         public int GetInput()
         {
-            return _input;
+            return _userInput;
         }
-        public void SetInput(int Input)
+        public void SetInput(int newInput)
         {
-            _input = Input;
+            _userInput = newInput;
         }
 
-        public string CoinCount()
+        public string List()
         {
-            string Quar = "";
-            string Dime = "";
-            string Nick = "";
-            string Penn = "";
+            int newInput = GetInput();
+            List<string> output = new List<string>();
+            string result;
 
-            string result = "";
-
-            int QuarterCount;
-            int DimeCount;
-            int NickelCount;
-            int PennieCount;
-
-            QuarterCount = GetInput() / 25;
-            DimeCount = (GetInput() - (QuarterCount * 25)) / 10;
-            NickelCount = (GetInput() - (QuarterCount * 25) - (DimeCount * 10)) / 5;
-            PennieCount = GetInput() - (QuarterCount * 25) - (DimeCount * 10) - (NickelCount * 5);
-
-            Quar = QuarterCount + " Quarters ";
-            Dime = DimeCount + " Dimes ";
-            Nick = NickelCount + " Nickels ";
-            Penn = PennieCount + " Pennies ";
-
-            if (QuarterCount == 0)
+            foreach(KeyValuePair<int, string> x in dValue)
             {
-                Quar = "";
-            }
-            if (DimeCount == 0)
-            {
-                Dime = "";
-            }
-            if (NickelCount == 0)
-            {
-                Nick = "";
-            }
-            if (PennieCount == 0)
-            {
-                Penn = "";
+                if (newInput == 0)
+                {
+                    break;
+                }
+                else if (newInput < x.Key)
+                {
+                    continue;
+                }
+                else
+                {
+                    output.Add(x.Value);
+                    newInput -= x.Key;
+                }
             }
 
-            result = Quar + Dime + Nick + Penn;
+            result = string.Join(" ", output.ToArray());
             Console.WriteLine(result);
             return result;
         }
